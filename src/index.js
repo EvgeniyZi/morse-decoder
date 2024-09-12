@@ -38,7 +38,36 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+
+    let strLength = expr.length -1; // Определяю длинну строки
+    let strLength_10_Simbol = strLength / 10; // Получаю кол-во участков по 10 символов во входящей строке 
+    let result = ''; // Пееренная для общего результата (расщифрованного из азбуки Морзе)
+
+    // Цикл для проверки каждых 10 символов входящей строки
+    for (let i = 0; i < strLength; i = i + 10) {
+        let str = expr.substr(i, 10); // В каждм повторением цикла выбираем 10 символов входящей строки
+        let morseCode = ''; // Переменная для сохранения символа в виде азбуки Морзе
+        
+        if (str === '**********') {
+            result = result + ' ';  // Если строка содержит '**********', добавляем пробел в результат
+        } else {
+            // Цикл для проверки каждой пары значений из полученной 10-ки символов
+            for (let j = 0; j < 10; j = j + 2) {
+                if (str[j] === '0' && str[j + 1] === '0') {
+                    continue; // Пропускаем '00'
+                } else if (str[j] === '1' && str[j + 1] === '0') {
+                    morseCode = morseCode + '.';  // Добавляем '.' к ранее добавленым символам
+                } else if (str[j] === '1' && str[j + 1] === '1') {
+                    morseCode = morseCode + '-'; // Добавляем '-' к ранее добавленым символам
+                }
+            }
+            // Находим поученные символы азбуки Морзе и заменяем латинскими символами
+            if (MORSE_TABLE[morseCode]) {
+                result = result + MORSE_TABLE[morseCode];
+            }
+        }
+        }
+        return result;
 }
 
 module.exports = {
